@@ -17,6 +17,30 @@ const Gs300Lcd = NativeModules.Gs300Lcd
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return Gs300Lcd.multiply(a, b);
+export function onText(
+  i: string,
+  size: number,
+  align: 'left' | 'center' | 'right'
+) {
+  return Gs300Lcd.onText(i, size, align);
+}
+
+export function onQrCode(i: string) {
+  return Gs300Lcd.onQrCode(i);
+}
+
+export function onLight() {
+  return Gs300Lcd.onLight();
+}
+
+export function onOffLight() {
+  return Gs300Lcd.onOffLight();
+}
+
+export function onImageUrl(url: string) {
+  return Gs300Lcd.onImageUrl(url);
+}
+
+export function onImageBase64(base64: string) {
+  return Gs300Lcd.onImageBase64(base64);
 }
