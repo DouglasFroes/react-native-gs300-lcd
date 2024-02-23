@@ -6,17 +6,34 @@ sub lcd gs300
 
 ```sh
 npm install react-native-gs300-lcd
+
+or
+
+yarn add react-native-gs300-lcd
 ```
+
+### Android
+
+Open file `android/settings.gradle` and add the following code:
+
+```gradle
+include (':sublcd')
+project(':sublcd').projectDir = file('../../android/libs/sublcd')
+```
+
+
 
 ## Usage
 
 ```js
-import { multiply } from 'react-native-gs300-lcd';
+import { onText } from 'react-native-gs300-lcd';
 
 // ...
 
-const result = await multiply(3, 7);
+onText('Hello, World!', 80, 'center');
 ```
+
+
 
 ## Contributing
 
