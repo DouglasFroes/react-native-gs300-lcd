@@ -18,7 +18,7 @@ Open file `android/settings.gradle` and add the following code:
 
 ```gradle
 include (':sublcd')
-project(':sublcd').projectDir = file('../../android/libs/sublcd')
+project(':sublcd').projectDir = file('../node_modules/react-native-gs300-lcd/libs/sublcd')
 ```
 
 
