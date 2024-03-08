@@ -1,6 +1,6 @@
 {
   "name": "react-native-gs300-lcd",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "sub lcd gs300",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
