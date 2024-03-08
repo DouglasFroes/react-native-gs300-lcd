@@ -20,10 +20,13 @@ import android.util.Base64;
 @ReactModule(name = Gs300LcdModule.NAME)
 public class Gs300LcdModule extends ReactContextBaseJavaModule {
   public static final String NAME = "Gs300Lcd";
+  private SubLcdHelper lcd = null;
 
   public Gs300LcdModule(ReactApplicationContext reactContext) {
     super(reactContext);
     SubLcdHelper.getInstance().init(reactContext.getApplicationContext());
+    lcd = SubLcdHelper.getInstance();
+    lcd.init(reactContext.getApplicationContext());
   }
 
   @Override
@@ -50,7 +53,8 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void onQrCode(String message) {
     try{
-      SubLcdHelper.getInstance().contentToConvertQRCode(message);
+      // SubLcdHelper.getInstance().contentToConvertQRCode(message);
+      lcd.contentToConvertQRCode(message);
     }catch(SubLcdException e){
       e.printStackTrace();
     }
