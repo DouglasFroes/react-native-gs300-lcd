@@ -24,9 +24,8 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
 
   public Gs300LcdModule(ReactApplicationContext reactContext) {
     super(reactContext);
-    SubLcdHelper.getInstance().init(reactContext.getApplicationContext());
     lcd = SubLcdHelper.getInstance();
-    lcd.init(reactContext.getApplicationContext());
+    lcd.init(reactContext);
   }
 
   @Override
@@ -39,11 +38,11 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
   public void onText(String message, int size, String align) {
     try{
       if(align.contains("right")){
-        SubLcdHelper.getInstance().sendText(message,Layout.Alignment.ALIGN_OPPOSITE,size);
+        lcd.sendText(message,Layout.Alignment.ALIGN_OPPOSITE,size);
       }else if(align.contains("center")){
-        SubLcdHelper.getInstance().sendText(message,Layout.Alignment.ALIGN_CENTER,size);
+        lcd.sendText(message,Layout.Alignment.ALIGN_CENTER,size);
       }else{
-        SubLcdHelper.getInstance().sendText(message,Layout.Alignment.ALIGN_NORMAL,size);
+        lcd.sendText(message,Layout.Alignment.ALIGN_NORMAL,size);
       }
     }catch(SubLcdException e){
       e.printStackTrace();
@@ -53,7 +52,6 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void onQrCode(String message) {
     try{
-      // SubLcdHelper.getInstance().contentToConvertQRCode(message);
       lcd.contentToConvertQRCode(message);
     }catch(SubLcdException e){
       e.printStackTrace();
@@ -63,7 +61,7 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void onLight() {
     try{
-      SubLcdHelper.getInstance().sendBacklightOpen();
+      lcd.sendBacklightOpen();
     }catch(SubLcdException e){
       e.printStackTrace();
     }
@@ -72,7 +70,7 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void onOffLight() {
     try{
-        SubLcdHelper.getInstance().sendBacklightClose();
+      lcd.sendBacklightClose();
     }catch(SubLcdException e){
       e.printStackTrace();
     }
@@ -84,7 +82,16 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void onImageBase64(String base64) {
-    new LoadImage().execute(base64);
+  public void onImageBase64(String image64) {
+    final byte[] decodedString = Base64.decode(image64, Base64.DEFAULT);
+    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+    try {
+      lcd.sendBitmap(
+        lcd.doRotateBitmap(decodedByte, 90)
+      );
+    } catch(SubLcdException  e){
+        e.printStackTrace();
+    }
   }
 }

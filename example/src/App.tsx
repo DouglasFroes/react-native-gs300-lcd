@@ -16,7 +16,7 @@ const url =
 
 export default function App() {
   const [msg, setMsg] = React.useState<string>('Test');
-  const [font, setFont] = React.useState<string>('20');
+  const [font, setFont] = React.useState<string>('80');
 
   const fontNumber = parseInt(font, 10) < 20 ? 20 : parseInt(font, 10);
 
@@ -44,9 +44,7 @@ export default function App() {
 
       <Button
         title="Texto center"
-        onPress={async () =>
-          console.log(await onText(msg, fontNumber, 'center'))
-        }
+        onPress={() => onText(`\n\n${msg}`, fontNumber, 'center')}
       />
       <Button
         title="Texto left"
