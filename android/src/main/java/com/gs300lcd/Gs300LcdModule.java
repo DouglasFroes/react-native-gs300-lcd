@@ -24,8 +24,6 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
 
   public Gs300LcdModule(ReactApplicationContext reactContext) {
     super(reactContext);
-    lcd = SubLcdHelper.getInstance();
-    lcd.init(reactContext);
   }
 
   @Override
@@ -35,7 +33,18 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void onInit() {
+    lcd = SubLcdHelper.getInstance();
+    lcd.init(getReactApplicationContext());
+  }
+
+
+  @ReactMethod
   public void onText(String message, int size, String align) {
+    if (lcd == null) {
+      return;
+    }
+
     try{
       if(align.contains("right")){
         lcd.sendText(message,Layout.Alignment.ALIGN_OPPOSITE,size);
@@ -51,6 +60,10 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void onQrCode(String message) {
+    if (lcd == null) {
+      return;
+    }
+
     try{
       lcd.contentToConvertQRCode(message);
     }catch(SubLcdException e){
@@ -60,6 +73,10 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void onLight() {
+    if (lcd == null) {
+      return;
+    }
+
     try{
       lcd.sendBacklightOpen();
     }catch(SubLcdException e){
@@ -69,6 +86,10 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void onOffLight() {
+    if (lcd == null) {
+      return;
+    }
+
     try{
       lcd.sendBacklightClose();
     }catch(SubLcdException e){
@@ -78,17 +99,42 @@ public class Gs300LcdModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void onImageUrl(String url) {
+    if (lcd == null) {
+      return;
+    }
+
     new LoadImageUlr().execute(url);
   }
 
   @ReactMethod
   public void onImageBase64(String image64) {
+    if (lcd == null) {
+      return;
+    }
+
     final byte[] decodedString = Base64.decode(image64, Base64.DEFAULT);
     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
     try {
       lcd.sendBitmap(
         lcd.doRotateBitmap(decodedByte, 90)
+      );
+    } catch(SubLcdException  e){
+        e.printStackTrace();
+    }
+  }
+
+  @ReactMethod
+  public void onImagePath(String path) {
+    if (lcd == null) {
+      return;
+    }
+
+    final Bitmap bitmap = BitmapFactory.decodeFile(path);
+
+    try {
+      lcd.sendBitmap(
+        lcd.doRotateBitmap(bitmap, 90)
       );
     } catch(SubLcdException  e){
         e.printStackTrace();

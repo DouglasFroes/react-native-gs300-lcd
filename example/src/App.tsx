@@ -4,6 +4,7 @@ import { View, TextInput, Button, StyleSheet } from 'react-native';
 import {
   onImageBase64,
   onImageUrl,
+  onInitGS00LCD,
   onLight,
   onOffLight,
   onQrCode,
@@ -19,6 +20,10 @@ export default function App() {
   const [font, setFont] = React.useState<string>('80');
 
   const fontNumber = parseInt(font, 10) < 20 ? 20 : parseInt(font, 10);
+
+  React.useEffect(() => {
+    onInitGS00LCD();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -48,31 +53,18 @@ export default function App() {
       />
       <Button
         title="Texto left"
-        onPress={async () => console.log(await onText(msg, fontNumber, 'left'))}
+        onPress={() => onText(msg, fontNumber, 'left')}
       />
       <Button
         title="Texto right"
-        onPress={async () =>
-          console.log(await onText(msg, fontNumber, 'right'))
-        }
+        onPress={() => onText(msg, fontNumber, 'right')}
       />
-      <Button title="IMG URL" onPress={async () => await onImageUrl(url)} />
-      <Button
-        title="IMG BASE64"
-        onPress={async () => await onImageBase64(imageBase64)}
-      />
-      <Button
-        title="QRCode Text"
-        onPress={async () => console.log(await onQrCode(msg))}
-      />
-      <Button
-        title="ON LCD"
-        onPress={async () => console.log(await onLight())}
-      />
-      <Button
-        title="OFF LCD"
-        onPress={async () => console.log(await onOffLight())}
-      />
+      <Button title="IMG URL" onPress={() => onImageUrl(url)} />
+      <Button title="IMG BASE64" onPress={() => onImageBase64(imageBase64)} />
+
+      <Button title="QRCode Text" onPress={() => onQrCode(msg)} />
+      <Button title="ON LCD" onPress={() => onLight()} />
+      <Button title="OFF LCD" onPress={() => onOffLight()} />
     </View>
   );
 }

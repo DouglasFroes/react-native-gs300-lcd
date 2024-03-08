@@ -17,30 +17,38 @@ const Gs300Lcd = NativeModules.Gs300Lcd
       }
     );
 
+export function onInitGS00LCD() {
+  Gs300Lcd.onInit();
+}
+
 export function onText(
   i: string,
   size: number,
   align: 'left' | 'center' | 'right'
 ) {
-  return Gs300Lcd.onText(i, size, align);
+  Gs300Lcd.onText(i, size, align);
 }
 
 export function onQrCode(i: string) {
-  return Gs300Lcd.onQrCode(i);
+  Gs300Lcd.onQrCode(i);
 }
 
 export function onLight() {
-  return Gs300Lcd.onLight();
+  Gs300Lcd.onLight();
 }
 
 export function onOffLight() {
-  return Gs300Lcd.onOffLight();
+  Gs300Lcd.onOffLight();
 }
 
 export function onImageUrl(url: string) {
-  return Gs300Lcd.onImageUrl(url);
+  Gs300Lcd.onImageUrl(url);
 }
 
 export function onImageBase64(base64: string) {
-  return Gs300Lcd.onImageBase64(base64);
+  Gs300Lcd.onImageBase64(base64);
+}
+
+export function onImagePath(path: string) {
+  Gs300Lcd.onImagePath(path);
 }
